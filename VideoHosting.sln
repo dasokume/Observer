@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VideoHosting.API", "VideoHo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VideoHosting.Core", "VideoHosting.Core\VideoHosting.Core.csproj", "{29481882-953A-4A78-8EE6-FB26410EE7F1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VideoHosting.Infrastructure", "VideoHosting.DAL\VideoHosting.Infrastructure.csproj", "{DEE93CE7-CFF3-464B-AD2B-0D1C0748EF91}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VideoHosting.Infrastructure", "VideoHosting.Infrastructure\VideoHosting.Infrastructure.csproj", "{3B36C00D-A764-4E99-8D44-5DC645735813}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{29481882-953A-4A78-8EE6-FB26410EE7F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29481882-953A-4A78-8EE6-FB26410EE7F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{29481882-953A-4A78-8EE6-FB26410EE7F1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DEE93CE7-CFF3-464B-AD2B-0D1C0748EF91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DEE93CE7-CFF3-464B-AD2B-0D1C0748EF91}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DEE93CE7-CFF3-464B-AD2B-0D1C0748EF91}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DEE93CE7-CFF3-464B-AD2B-0D1C0748EF91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B36C00D-A764-4E99-8D44-5DC645735813}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B36C00D-A764-4E99-8D44-5DC645735813}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B36C00D-A764-4E99-8D44-5DC645735813}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B36C00D-A764-4E99-8D44-5DC645735813}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
