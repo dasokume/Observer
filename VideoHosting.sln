@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33414.496
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoHosting.API", "VideoHosting.API\VideoHosting.API.csproj", "{A9D6AE53-A190-4EEA-969E-9A573C7D4512}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VideoHosting.API", "VideoHosting.API\VideoHosting.API.csproj", "{A9D6AE53-A190-4EEA-969E-9A573C7D4512}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VideoHosting.Core", "VideoHosting.Core\VideoHosting.Core.csproj", "{29481882-953A-4A78-8EE6-FB26410EE7F1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VideoHosting.Infrastructure", "VideoHosting.DAL\VideoHosting.Infrastructure.csproj", "{DEE93CE7-CFF3-464B-AD2B-0D1C0748EF91}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{A9D6AE53-A190-4EEA-969E-9A573C7D4512}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A9D6AE53-A190-4EEA-969E-9A573C7D4512}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A9D6AE53-A190-4EEA-969E-9A573C7D4512}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29481882-953A-4A78-8EE6-FB26410EE7F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29481882-953A-4A78-8EE6-FB26410EE7F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29481882-953A-4A78-8EE6-FB26410EE7F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29481882-953A-4A78-8EE6-FB26410EE7F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DEE93CE7-CFF3-464B-AD2B-0D1C0748EF91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEE93CE7-CFF3-464B-AD2B-0D1C0748EF91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEE93CE7-CFF3-464B-AD2B-0D1C0748EF91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEE93CE7-CFF3-464B-AD2B-0D1C0748EF91}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
