@@ -1,6 +1,4 @@
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
 using VideoHosting.Core.Interfaces;
 using VideoHosting.Infrastructure;
 
@@ -12,7 +10,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddMediatR(cfg => {
+builder.Services.AddMediatR(cfg =>
+{
     var assembly = AppDomain.CurrentDomain.Load("VideoHosting.Core");
     cfg.RegisterServicesFromAssembly(assembly);
 });

@@ -1,7 +1,10 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Net;
 using VideoHosting.Core.Entities;
-using VideoHosting.Core.Queries.GetVideo;
+using VideoHosting.Core.VideoManagment.Queries;
+using VideoHosting.Infrastructure;
 
 namespace VideoHosting.API.Controllers
 {
@@ -11,17 +14,35 @@ namespace VideoHosting.API.Controllers
     {
         private readonly IMediator _mediator;
 
+
         public VideoController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
-        [HttpGet(Name = "GetVideoById")]
-        public async Task<Video> GetVideoById(int id)
+        [HttpGet("{id}")]
+        public async Task GetVideoById(int id)
         {
-            var video = await _mediator.Send(new GetVideoByIdQuery(id));
+            var request = new GetVideoByIdQuery(id);
+            var videoSequence = _mediator.CreateStream(request);
 
-            return video;
+            if (videoSequence is null)
+            {
+                throw new ArgumentNullException("Wtf");
+            }
+
+            await foreach (var bufferedVideo in videoSequence)
+            {
+                await HttpContext.Response.Body.WriteAsync(bufferedVideo.buffer, 0, bufferedVideo.bytesRead);
+            }
+
+            await HttpContext.Response.Body.FlushAsync();
+        }
+
+        [HttpPost]
+        public async Task CreateVideo([FromForm] Video video)
+        {
+            await Task.Delay(10);
         }
     }
 }

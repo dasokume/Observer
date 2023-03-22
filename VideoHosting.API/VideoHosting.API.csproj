@@ -7,12 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\VideoHosting.Core\VideoHosting.Core.csproj" />
-    <ProjectReference Include="..\VideoHosting.DAL\VideoHosting.Infrastructure.csproj" />
+    <ProjectReference Include="..\VideoHosting.Infrastructure\VideoHosting.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
