@@ -1,10 +1,8 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Net;
-using VideoHosting.Core.Entities;
+using VideoHosting.API.ViewModels;
+using VideoHosting.Core.VideoManagment.Commands;
 using VideoHosting.Core.VideoManagment.Queries;
-using VideoHosting.Infrastructure;
 
 namespace VideoHosting.API.Controllers
 {
@@ -14,17 +12,15 @@ namespace VideoHosting.API.Controllers
     {
         private readonly IMediator _mediator;
 
-
         public VideoController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
         [HttpGet("{id}")]
-        public async Task GetVideoById(int id)
+        public async Task GetVideoById(VideoBaseViewModel video)
         {
-            var request = new GetVideoByIdQuery(id);
-            var videoSequence = _mediator.CreateStream(request);
+            var videoSequence = _mediator.CreateStream(new StreamVideoByIdQuery(video.Id));
 
             if (videoSequence is null)
             {
@@ -33,16 +29,24 @@ namespace VideoHosting.API.Controllers
 
             await foreach (var bufferedVideo in videoSequence)
             {
-                await HttpContext.Response.Body.WriteAsync(bufferedVideo.buffer, 0, bufferedVideo.bytesRead);
+                await HttpContext.Response.Body.WriteAsync(bufferedVideo.Buffer, 0, bufferedVideo.BytesRead);
             }
 
             await HttpContext.Response.Body.FlushAsync();
         }
 
         [HttpPost]
-        public async Task CreateVideo([FromForm] Video video)
+        public async Task<IActionResult> UploadVideo([FromForm] UploadVideoViewModel video)
         {
-            await Task.Delay(10);
+            var isUploaded = await _mediator.Send(new UploadVideoCommand(video.VideoFile));
+            return Ok(isUploaded);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteVideoById(VideoBaseViewModel video)
+        {
+            var isDeleted = await _mediator.Send(new DeleteVideoByIdCommand(video.Id));
+            return Ok(isDeleted);
         }
     }
 }

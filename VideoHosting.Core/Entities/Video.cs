@@ -2,8 +2,8 @@
 
 namespace VideoHosting.Core.Entities
 {
-    public class Video
+    public class Video : VideoBase
     {
-        public IFormFile File { get; set; }
+        public IFormFile VideoFile { get; set; }
     }
 }

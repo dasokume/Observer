@@ -7,6 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="DataAccess.cs" />
+    <Compile Remove="FileManager.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="NewFile1.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\VideoHosting.Core\VideoHosting.Core.csproj" />
   </ItemGroup>
 

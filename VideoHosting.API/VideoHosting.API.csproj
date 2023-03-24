@@ -7,6 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\UploadVideoController.cs" />
+    <Compile Remove="ViewModels\Video.cs" />
+    <Compile Remove="ViewModels\VideoViewModel.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="ViewModels\NewFile.txt" />
+    <None Remove="ViewModels\VideoBaseViewModel" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 

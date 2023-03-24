@@ -1,5 +1,7 @@
+using MediatR;
 using Microsoft.AspNetCore.Hosting;
 using VideoHosting.Core.Interfaces;
+using VideoHosting.Core.VideoManagment.Commands;
 using VideoHosting.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,7 +18,8 @@ builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(assembly);
 });
 
-builder.Services.AddScoped<IDataAccess, DataAccess>();
+builder.Services.AddScoped<IVideoRepository, VideoRepository>();
+builder.Services.AddScoped<IVideoInMemoryDatabase, VideoInMemoryDatabase>();
 
 var app = builder.Build();
 

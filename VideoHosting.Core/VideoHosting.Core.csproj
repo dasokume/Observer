@@ -7,9 +7,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Interfaces\IDataAccess.cs" />
+    <Compile Remove="Interfaces\IFileManager.cs" />
+    <Compile Remove="VideoManagment\Queries\GetVideoByIdQuery.cs" />
+    <Compile Remove="VideoManagment\QueryHandlers\GetVideoByIdQueryHandler.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Entities\NewFile1.txt" />
+    <None Remove="Interfaces\NewFile1.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Exceptions\" />
-    <Folder Include="VideoManagment\CommandHandlers\" />
-    <Folder Include="VideoManagment\Commands\" />
   </ItemGroup>
 
   <ItemGroup>

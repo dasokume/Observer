@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace VideoHosting.Core.Entities
+﻿namespace VideoHosting.Core.Entities
 {
-    public class BufferedVideo
+    public class BufferedVideo : VideoBase
     {
-        public int bufferSize { get; set; }
+        public int BufferSize { get; set; }
 
-        public byte[] buffer { get; set; }
+        public byte[] Buffer { get; set; }
 
-        public int bytesRead { get; set; }
+        public int BytesRead { get; set; }
     }
 }
