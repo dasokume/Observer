@@ -17,7 +17,7 @@ namespace VideoHosting.Core.VideoManagment.CommandHandlers
         public async Task<bool> Handle(DeleteVideoByIdCommand request, CancellationToken cancellationToken)
         {
             var convertedRequest = new VideoBase { Id = request.Id };
-            return await Task.FromResult(_videoRepository.Delete(convertedRequest));
+            return await _videoRepository.DeleteVideoAsync(convertedRequest);
         }
     }
 }

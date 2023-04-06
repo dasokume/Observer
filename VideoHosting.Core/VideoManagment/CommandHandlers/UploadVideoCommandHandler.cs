@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Http;
 using VideoHosting.Core.Entities;
 using VideoHosting.Core.Interfaces;
 using VideoHosting.Core.VideoManagment.Commands;
@@ -17,7 +18,7 @@ namespace VideoHosting.Core.VideoManagment.CommandHandlers
         public async Task<bool> Handle(UploadVideoCommand request, CancellationToken cancellationToken)
         {
             var convertedRequest = new Video { VideoFile = request.VideoFile };
-            return await _videoRepository.UploadAsync(convertedRequest);
+            return await _videoRepository.UploadVideoAsync(convertedRequest);
         }
     }
 }

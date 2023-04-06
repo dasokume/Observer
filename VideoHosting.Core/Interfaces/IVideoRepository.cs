@@ -1,11 +1,12 @@
-﻿using VideoHosting.Core.Entities;
+﻿using Microsoft.AspNetCore.Http;
+using VideoHosting.Core.Entities;
 
 namespace VideoHosting.Core.Interfaces
 {
     public interface IVideoRepository
     {
-        public IAsyncEnumerable<BufferedVideo> StreamAsync(VideoBase video);
-        public Task<bool> UploadAsync(Video video);
-        public bool Delete(VideoBase video);
+        public IAsyncEnumerable<BufferedVideo> StreamVideoAsync(VideoBase video);
+        public Task<bool> UploadVideoAsync(Video video);
+        public Task<bool> DeleteVideoAsync(VideoBase video);
     }
 }

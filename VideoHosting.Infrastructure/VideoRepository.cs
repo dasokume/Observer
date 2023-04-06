@@ -5,28 +5,28 @@ namespace VideoHosting.Infrastructure
 {
     public class VideoRepository : IVideoRepository
     {
-        private readonly IVideoInMemoryDatabase _videoInMemoryDatabase;
+        private readonly IVideoRepository _videoRepository;
 
-        public VideoRepository(IVideoInMemoryDatabase videoInMemoryDatabase)
+        public VideoRepository(IVideoRepository videoRepository)
         {
-            _videoInMemoryDatabase = videoInMemoryDatabase;
+            _videoRepository = videoRepository;
         }
 
-        public IAsyncEnumerable<BufferedVideo> StreamAsync(VideoBase video)
+        public IAsyncEnumerable<BufferedVideo> StreamVideoAsync(VideoBase video)
         {
-            return _videoInMemoryDatabase.StreamAsync(video);
+            return _videoRepository.StreamVideoAsync(video);
         }
 
-        public async Task<bool> UploadAsync(Video video)
+        public async Task<bool> UploadVideoAsync(Video video)
         {
-            var isUploaded = await _videoInMemoryDatabase.WriteAsync(video);
+            var isUploaded = await _videoRepository.UploadVideoAsync(video);
 
             return isUploaded;
         }
 
-        public bool Delete(VideoBase video)
+        public async Task<bool> DeleteVideoAsync(VideoBase video)
         {
-            var isDeleted = _videoInMemoryDatabase.Delete(video);
+            var isDeleted = await _videoRepository.DeleteVideoAsync(video);
 
             return isDeleted;
         }

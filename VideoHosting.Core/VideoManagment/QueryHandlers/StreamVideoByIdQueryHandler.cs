@@ -17,7 +17,7 @@ namespace VideoHosting.Core.VideoManagment.QueryHandlers
         public IAsyncEnumerable<BufferedVideo> Handle(StreamVideoByIdQuery request, CancellationToken cancellationToken)
         {
             var convertedRequest = new VideoBase { Id = request.Id };
-            return _videoRepository.StreamAsync(convertedRequest);
+            return _videoRepository.StreamVideoAsync(convertedRequest);
         }
     }
 }
