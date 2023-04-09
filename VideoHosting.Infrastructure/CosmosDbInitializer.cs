@@ -27,7 +27,7 @@ namespace VideoHosting.Infrastructure
             }
             catch (Exception ex)
             {
-                return;
+                ex.ToString();
             }
         }
     }

@@ -1,34 +1,54 @@
-﻿using VideoHosting.Core.Interfaces;
-using VideoHosting.Core.Entities;
+﻿using VideoHosting.Core.Entities;
+using VideoHosting.Core.Interfaces;
+using Microsoft.Azure.Cosmos;
 
 namespace VideoHosting.Infrastructure
 {
     public class VideoRepository : IVideoRepository
     {
-        private readonly IVideoRepository _videoRepository;
+        private readonly Container _container;
+        private readonly CosmosDbContext _cosmosDbContext;
 
-        public VideoRepository(IVideoRepository videoRepository)
+        public VideoRepository(CosmosDbContext сosmosDbContext)
         {
-            _videoRepository = videoRepository;
+            _cosmosDbContext = сosmosDbContext;
+            _container = сosmosDbContext.GetContainer();
         }
 
-        public IAsyncEnumerable<BufferedVideo> StreamVideoAsync(VideoBase video)
+        public async Task CreateCosmosDbItemAsync(VideoMetadata videometadata)
         {
-            return _videoRepository.StreamVideoAsync(video);
+            var videoMetadata = new VideoMetadata
+            {
+                Id = Guid.NewGuid().ToString(),
+                FileName = videometadata.FileName,
+                Title = videometadata.Title,
+                Description = videometadata.Description,
+            };
+
+            await _container.CreateItemAsync(videoMetadata, new PartitionKey(videoMetadata.Id));
         }
 
-        public async Task<bool> UploadVideoAsync(Video video)
+        public async Task<VideoMetadata> GetVideoIdMetadataAsync(VideoMetadata videometadata)
         {
-            var isUploaded = await _videoRepository.UploadVideoAsync(video);
-
-            return isUploaded;
+            var partitionKey = new PartitionKey(videometadata.Id);
+            var getVideoById = await _container.ReadItemAsync<VideoMetadata>(videometadata.Id.ToString(), partitionKey);
+            return getVideoById;
         }
 
-        public async Task<bool> DeleteVideoAsync(VideoBase video)
+        public async Task<bool> DeleteCosmosDbItemAsync(VideoMetadata videometadata)
         {
-            var isDeleted = await _videoRepository.DeleteVideoAsync(video);
-
-            return isDeleted;
+            try
+            {
+                var id = videometadata.Id.ToString();
+                var partitionKey = new PartitionKey(id);
+                await _container.DeleteItemAsync<VideoMetadata>(id, partitionKey);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return false;
+            }
         }
     }
 }

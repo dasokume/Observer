@@ -39,7 +39,7 @@ namespace VideoHosting.API.Controllers
         [HttpPost]
         public async Task<IActionResult> UploadVideo([FromForm] UploadVideoViewModel video)
         {
-            var isUploaded = await _mediator.Send(new UploadVideoCommand(video.VideoFile));
+            var isUploaded = await _mediator.Send(new UploadVideoCommand(video.File));
             return Ok(isUploaded);
         }
 

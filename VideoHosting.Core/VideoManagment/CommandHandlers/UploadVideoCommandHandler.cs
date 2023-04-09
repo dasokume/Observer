@@ -9,16 +9,23 @@ namespace VideoHosting.Core.VideoManagment.CommandHandlers
     public class UploadVideoCommandHandler : IRequestHandler<UploadVideoCommand, bool>
     {
         private readonly IVideoRepository _videoRepository;
+        private readonly IVideoFileRepository _videoFileRepository;
 
-        public UploadVideoCommandHandler(IVideoRepository videoRepository)
+        public UploadVideoCommandHandler(IVideoRepository videoRepository, IVideoFileRepository videoFileRepository)
         {
             _videoRepository = videoRepository;
+            _videoFileRepository = videoFileRepository;
         }
 
         public async Task<bool> Handle(UploadVideoCommand request, CancellationToken cancellationToken)
         {
-            var convertedRequest = new Video { VideoFile = request.VideoFile };
-            return await _videoRepository.UploadVideoAsync(convertedRequest);
+            var videoFile = new VideoFile { File = request.VideoFile };
+            await _videoFileRepository.SaveVideoAsync(videoFile);
+
+            var videoMetadata = new VideoMetadata { FileName = request.VideoFile.FileName };
+            await _videoRepository.CreateCosmosDbItemAsync(videoMetadata);
+
+            return true;
         }
     }
 }

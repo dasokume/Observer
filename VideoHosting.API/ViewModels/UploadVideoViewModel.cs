@@ -2,6 +2,6 @@
 {
     public class UploadVideoViewModel
     {
-        public IFormFile VideoFile { get; set; }
+        public IFormFile File { get; set; }
     }
 }

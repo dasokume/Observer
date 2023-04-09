@@ -1,7 +1,10 @@
-﻿namespace VideoHosting.Core.Entities
+﻿using Newtonsoft.Json;
+
+namespace VideoHosting.Core.Entities
 {
     public class VideoBase
     {
-        public int Id { get; set; }
+        [JsonProperty("id")]
+        public string Id { get; set; }
     }
 }

@@ -1,12 +1,16 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using VideoHosting.Core.Entities;
 
 namespace VideoHosting.Core.Interfaces
 {
     public interface IVideoRepository
     {
-        public IAsyncEnumerable<BufferedVideo> StreamVideoAsync(VideoBase video);
-        public Task<bool> UploadVideoAsync(Video video);
-        public Task<bool> DeleteVideoAsync(VideoBase video);
+        public Task CreateCosmosDbItemAsync(VideoMetadata videoMetadata);
+        public Task<VideoMetadata> GetVideoIdMetadataAsync(VideoMetadata videoMetadata);
+        public Task<bool> DeleteCosmosDbItemAsync(VideoMetadata videoMetadata);
     }
 }

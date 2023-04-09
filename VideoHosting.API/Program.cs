@@ -14,11 +14,12 @@ builder.Services.AddMediatR(cfg =>
 {
     var assembly = AppDomain.CurrentDomain.Load("VideoHosting.Core");
     cfg.RegisterServicesFromAssembly(assembly);
-}); 
-builder.Services.AddScoped<IVideoRepository, CosmosDbVideoRepository>();
+});
 builder.Services.AddSingleton<CosmosDbInitializer>();
 builder.Services.AddSingleton<CosmosDbContext>();
 builder.Services.Configure<CosmosDbSettings>(builder.Configuration.GetSection("CosmosDbSettings"));
+builder.Services.AddScoped<IVideoFileRepository, VideoFileRepository>();
+builder.Services.AddScoped<IVideoRepository, VideoRepository>();
 
 var app = builder.Build();
 

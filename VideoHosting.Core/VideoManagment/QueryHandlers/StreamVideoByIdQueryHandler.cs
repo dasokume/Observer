@@ -5,19 +5,19 @@ using VideoHosting.Core.VideoManagment.Queries;
 
 namespace VideoHosting.Core.VideoManagment.QueryHandlers
 {
-    public record StreamVideoByIdQueryHandler : IStreamRequestHandler<StreamVideoByIdQuery, BufferedVideo>
+    public class StreamVideoByIdQueryHandler : IStreamRequestHandler<StreamVideoByIdQuery, BufferedVideo>
     {
-        private IVideoRepository _videoRepository;
+        private readonly IVideoFileRepository _videoFileRepository;
 
-        public StreamVideoByIdQueryHandler(IVideoRepository videoRepository)
+        public StreamVideoByIdQueryHandler(IVideoFileRepository videoFileRepository)
         {
-            _videoRepository = videoRepository;
+            _videoFileRepository = videoFileRepository;
         }
 
         public IAsyncEnumerable<BufferedVideo> Handle(StreamVideoByIdQuery request, CancellationToken cancellationToken)
         {
-            var convertedRequest = new VideoBase { Id = request.Id };
-            return _videoRepository.StreamVideoAsync(convertedRequest);
+            var videoFile = new VideoFile { Id = request.Id.ToString() };
+            return _videoFileRepository.StreamVideoAsync(videoFile);
         }
     }
 }
