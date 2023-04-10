@@ -1,12 +1,11 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Http;
 using VideoHosting.Core.Entities;
 using VideoHosting.Core.Interfaces;
 using VideoHosting.Core.VideoManagment.Commands;
 
 namespace VideoHosting.Core.VideoManagment.CommandHandlers
 {
-    public class UploadVideoCommandHandler : IRequestHandler<UploadVideoCommand, bool>
+    public class UploadVideoCommandHandler : IRequestHandler<UploadVideoCommand, VideoMetadata>
     {
         private readonly IVideoRepository _videoRepository;
         private readonly IVideoFileRepository _videoFileRepository;
@@ -17,15 +16,22 @@ namespace VideoHosting.Core.VideoManagment.CommandHandlers
             _videoFileRepository = videoFileRepository;
         }
 
-        public async Task<bool> Handle(UploadVideoCommand request, CancellationToken cancellationToken)
+        public async Task<VideoMetadata> Handle(UploadVideoCommand request, CancellationToken cancellationToken)
         {
             var videoFile = new VideoFile { File = request.VideoFile };
-            await _videoFileRepository.SaveVideoAsync(videoFile);
+            var isFileSaved = await _videoFileRepository.SaveFileAsync(videoFile);
 
-            var videoMetadata = new VideoMetadata { FileName = request.VideoFile.FileName };
-            await _videoRepository.CreateCosmosDbItemAsync(videoMetadata);
+            var videoMetadata = new VideoMetadata
+            {
+                Id = Guid.NewGuid().ToString(),
+                FileName = request.VideoFile.FileName,
+                Title = request.Title,
+                Description = request.Description,
+            };
 
-            return true;
+            var createdResourse = await _videoRepository.CreateMetadataAsync(videoMetadata);
+
+            return createdResourse;
         }
     }
 }

@@ -1,17 +1,15 @@
 ﻿using VideoHosting.Core.Entities;
 using VideoHosting.Core.Interfaces;
-using Microsoft.Azure.Cosmos;
 
 namespace VideoHosting.Infrastructure
 {
     public class VideoFileRepository : IVideoFileRepository
     {
         private readonly string _videosDirectory;
-        private readonly IVideoRepository _videoFRepository;
 
-        public VideoFileRepository(string videosDirectory = null)
+        public VideoFileRepository()
         {
-            _videosDirectory = videosDirectory ?? Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Videos");
+            _videosDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Videos");
         }
 
         public async IAsyncEnumerable<BufferedVideo> StreamVideoAsync(VideoFile video)
@@ -19,7 +17,7 @@ namespace VideoHosting.Infrastructure
             var bufferSize = 1024 * 1024;
             byte[] buffer = new byte[bufferSize];
 
-            using var stream = new FileStream(Path.Combine(_videosDirectory, video.File.FileName), FileMode.Open);
+            using var stream = new FileStream(Path.Combine(_videosDirectory, video.FileName), FileMode.Open);
             using var bufferedStream = new BufferedStream(stream, bufferSize);
             BufferedVideo bufferedVideo = new BufferedVideo { BufferSize = bufferSize };
 
@@ -32,7 +30,7 @@ namespace VideoHosting.Infrastructure
             }
         }
 
-        public async Task<bool> SaveVideoAsync(VideoFile video)
+        public async Task<bool> SaveFileAsync(VideoFile video)
         {
             var videoFileName = video.File.FileName;
             var videoFilePath = Path.Combine(_videosDirectory, videoFileName);
@@ -47,24 +45,18 @@ namespace VideoHosting.Infrastructure
             return true;
         }
 
-        public async Task<bool> DeleteVideoAsync(VideoBase video)
+        public bool DeleteFileAsync(VideoFile video)
         {
-            try
-            {
-                var videoFilePath = Path.Combine(_videosDirectory, video.Id);
-                if (File.Exists(videoFilePath))
-                {
-                    //await _videoRepository.DeleteCosmosDbItemAsync(video.Id);
-                    File.Delete(videoFilePath);
-                }
+            var videoFilePath = Path.Combine(_videosDirectory, video.FileName);
 
+            if (!File.Exists(videoFilePath))
+            {
                 return true;
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-                return false;
-            }
+
+            File.Delete(videoFilePath);
+
+            return true;
         }
     }
 }

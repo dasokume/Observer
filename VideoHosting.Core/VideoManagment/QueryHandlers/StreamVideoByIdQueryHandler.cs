@@ -8,15 +8,20 @@ namespace VideoHosting.Core.VideoManagment.QueryHandlers
     public class StreamVideoByIdQueryHandler : IStreamRequestHandler<StreamVideoByIdQuery, BufferedVideo>
     {
         private readonly IVideoFileRepository _videoFileRepository;
+        private readonly IVideoRepository _videoRepository;
 
-        public StreamVideoByIdQueryHandler(IVideoFileRepository videoFileRepository)
+        public StreamVideoByIdQueryHandler(IVideoFileRepository videoFileRepository, IVideoRepository videoRepository)
         {
             _videoFileRepository = videoFileRepository;
+            _videoRepository = videoRepository;
         }
 
         public IAsyncEnumerable<BufferedVideo> Handle(StreamVideoByIdQuery request, CancellationToken cancellationToken)
         {
-            var videoFile = new VideoFile { Id = request.Id.ToString() };
+            var videoMetadata = _videoRepository.GetMetadataAsync(request.Id).GetAwaiter().GetResult();
+
+            var videoFile = new VideoFile { FileName = videoMetadata.FileName };
+
             return _videoFileRepository.StreamVideoAsync(videoFile);
         }
     }

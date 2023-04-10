@@ -12,6 +12,7 @@ namespace VideoHosting.Infrastructure
         public CosmosDbInitializer(IConfiguration config)
         {
             var cosmosDbSettings = config.GetSection("CosmosDbSettings");
+
             _cosmosClient = new CosmosClient(cosmosDbSettings["EndpointUri"], cosmosDbSettings["PrimaryKey"]);
             _databaseName = cosmosDbSettings["DatabaseName"];
             _containerName = cosmosDbSettings["ContainerName"];
@@ -25,10 +26,7 @@ namespace VideoHosting.Infrastructure
                 var database = _cosmosClient.GetDatabase(_databaseName);
                 await database.CreateContainerIfNotExistsAsync(_containerName, "/id");
             }
-            catch (Exception ex)
-            {
-                ex.ToString();
-            }
+            catch (Exception ex) { }
         }
     }
 }

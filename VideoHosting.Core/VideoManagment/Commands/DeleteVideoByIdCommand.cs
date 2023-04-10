@@ -2,5 +2,5 @@
 
 namespace VideoHosting.Core.VideoManagment.Commands
 {
-    public record DeleteVideoByIdCommand(int Id) : IRequest<bool>;
+    public record DeleteVideoByIdCommand(string Id) : IRequest<bool>;
 }

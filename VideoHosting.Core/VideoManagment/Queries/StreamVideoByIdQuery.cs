@@ -3,5 +3,5 @@ using VideoHosting.Core.Entities;
 
 namespace VideoHosting.Core.VideoManagment.Queries
 {
-    public record StreamVideoByIdQuery(int Id) : IStreamRequest<BufferedVideo>;
+    public record StreamVideoByIdQuery(string Id) : IStreamRequest<BufferedVideo>;
 }

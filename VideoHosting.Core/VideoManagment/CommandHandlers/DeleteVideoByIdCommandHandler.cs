@@ -18,13 +18,13 @@ namespace VideoHosting.Core.VideoManagment.CommandHandlers
 
         public async Task<bool> Handle(DeleteVideoByIdCommand request, CancellationToken cancellationToken)
         {
-            var videoFile = new VideoFile { Id = request.Id.ToString() };
-            await _videoFileRepository.DeleteVideoAsync(videoFile);
+            var videoMetadata = await _videoRepository.GetMetadataAsync(request.Id);
 
-            var videoMetadata = new VideoMetadata { Id = request.Id.ToString() };
-            await _videoRepository.DeleteCosmosDbItemAsync(videoMetadata);
+            var isFileDeleted = _videoFileRepository.DeleteFileAsync(new VideoFile { FileName = videoMetadata.FileName });
 
-            return true;
+            var isMetadataDeleted = await _videoRepository.DeleteMetadataAsync(request.Id);
+
+            return isFileDeleted && isMetadataDeleted;
         }
     }
 }

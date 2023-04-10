@@ -19,9 +19,9 @@ namespace VideoHosting.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task GetVideoById(VideoBaseViewModel video)
+        public async Task GetVideoById(string id)
         {
-            var videoSequence = _mediator.CreateStream(new StreamVideoByIdQuery(video.Id));
+            var videoSequence = _mediator.CreateStream(new StreamVideoByIdQuery(id));
 
             if (videoSequence is null)
             {
@@ -37,16 +37,16 @@ namespace VideoHosting.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UploadVideo([FromForm] UploadVideoViewModel video)
+        public async Task<VideoMetadata> UploadVideo([FromForm] UploadVideoViewModel video)
         {
-            var isUploaded = await _mediator.Send(new UploadVideoCommand(video.File));
-            return Ok(isUploaded);
+            var createdVideoMetadata = await _mediator.Send(new UploadVideoCommand(video.File, video.Title, video.Description));
+            return createdVideoMetadata;
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteVideoById(VideoBaseViewModel video)
+        public async Task<IActionResult> DeleteVideoById(string id)
         {
-            var isDeleted = await _mediator.Send(new DeleteVideoByIdCommand(video.Id));
+            var isDeleted = await _mediator.Send(new DeleteVideoByIdCommand(id));
             return Ok(isDeleted);
         }
     }

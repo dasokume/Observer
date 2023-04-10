@@ -16,7 +16,7 @@ builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(assembly);
 });
 builder.Services.AddSingleton<CosmosDbInitializer>();
-builder.Services.AddSingleton<CosmosDbContext>();
+builder.Services.AddScoped<CosmosDbContext>();
 builder.Services.Configure<CosmosDbSettings>(builder.Configuration.GetSection("CosmosDbSettings"));
 builder.Services.AddScoped<IVideoFileRepository, VideoFileRepository>();
 builder.Services.AddScoped<IVideoRepository, VideoRepository>();

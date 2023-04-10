@@ -1,54 +1,30 @@
 ﻿using VideoHosting.Core.Entities;
 using VideoHosting.Core.Interfaces;
-using Microsoft.Azure.Cosmos;
 
 namespace VideoHosting.Infrastructure
 {
     public class VideoRepository : IVideoRepository
     {
-        private readonly Container _container;
         private readonly CosmosDbContext _cosmosDbContext;
 
         public VideoRepository(CosmosDbContext сosmosDbContext)
         {
             _cosmosDbContext = сosmosDbContext;
-            _container = сosmosDbContext.GetContainer();
         }
 
-        public async Task CreateCosmosDbItemAsync(VideoMetadata videometadata)
+        public async Task<VideoMetadata> CreateMetadataAsync(VideoMetadata videoMetadata)
         {
-            var videoMetadata = new VideoMetadata
-            {
-                Id = Guid.NewGuid().ToString(),
-                FileName = videometadata.FileName,
-                Title = videometadata.Title,
-                Description = videometadata.Description,
-            };
-
-            await _container.CreateItemAsync(videoMetadata, new PartitionKey(videoMetadata.Id));
+            return await _cosmosDbContext.CreateItemAsync(videoMetadata, videoMetadata.Id);
         }
 
-        public async Task<VideoMetadata> GetVideoIdMetadataAsync(VideoMetadata videometadata)
+        public async Task<VideoMetadata> GetMetadataAsync(string id)
         {
-            var partitionKey = new PartitionKey(videometadata.Id);
-            var getVideoById = await _container.ReadItemAsync<VideoMetadata>(videometadata.Id.ToString(), partitionKey);
-            return getVideoById;
+            return await _cosmosDbContext.ReadItemAsync<VideoMetadata>(id, id);
         }
 
-        public async Task<bool> DeleteCosmosDbItemAsync(VideoMetadata videometadata)
+        public async Task<bool> DeleteMetadataAsync(string id)
         {
-            try
-            {
-                var id = videometadata.Id.ToString();
-                var partitionKey = new PartitionKey(id);
-                await _container.DeleteItemAsync<VideoMetadata>(id, partitionKey);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-                return false;
-            }
+            return await _cosmosDbContext.DeleteItemAsync<VideoMetadata>(id, id);
         }
     }
 }

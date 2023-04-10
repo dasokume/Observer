@@ -1,15 +1,16 @@
-﻿namespace VideoHosting.Core.Entities
+﻿using Newtonsoft.Json;
+
+namespace VideoHosting.Core.Entities
 {
     public class VideoMetadata : VideoBase
     {
+        [JsonProperty("fileName")]
         public string FileName { get; set; }
 
+        [JsonProperty("title")]
         public string Title { get; set; }
 
+        [JsonProperty("description")]
         public string Description { get; set; }
-
-        //public List<string> Tags { get; set; }
-
-        //public string FilePath { get; set; }
     }
 }
