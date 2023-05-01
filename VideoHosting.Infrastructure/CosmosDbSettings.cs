@@ -1,10 +1,9 @@
-﻿namespace VideoHosting.Infrastructure
+﻿namespace VideoHosting.Infrastructure;
+
+public class CosmosDbSettings
 {
-    public class CosmosDbSettings
-    {
-        public string EndpointUri { get; set; }
-        public string PrimaryKey { get; set; }
-        public string DatabaseName { get; set; }
-        public string ContainerName { get; set; }
-    }
+    public string EndpointUri { get; set; } = default!;
+    public string PrimaryKey { get; set; } = default!;
+    public string DatabaseName { get; set; } = default!;
+    public string ContainerName { get; set; } = default!;
 }

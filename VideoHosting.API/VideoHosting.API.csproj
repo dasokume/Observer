@@ -13,17 +13,25 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="C:\Users\iliam\.nuget\packages\nlog.config\4.7.15\contentFiles\any\any\NLog.config" />
     <None Remove="ViewModels\NewFile.txt" />
     <None Remove="ViewModels\VideoBaseViewModel" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="NLog" Version="5.1.4" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\VideoHosting.Core\VideoHosting.Core.csproj" />
     <ProjectReference Include="..\VideoHosting.Infrastructure\VideoHosting.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

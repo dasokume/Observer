@@ -3,35 +3,46 @@ using VideoHosting.Core.Entities;
 using VideoHosting.Core.Interfaces;
 using VideoHosting.Core.VideoManagment.Commands;
 
-namespace VideoHosting.Core.VideoManagment.CommandHandlers
+namespace VideoHosting.Core.VideoManagment.CommandHandlers;
+
+public class UploadVideoCommandHandler : IRequestHandler<UploadVideoCommand, VideoMetadata>
 {
-    public class UploadVideoCommandHandler : IRequestHandler<UploadVideoCommand, VideoMetadata>
+    private readonly IVideoRepository _videoRepository;
+    private readonly IVideoFileRepository _videoFileRepository;
+
+    public UploadVideoCommandHandler(IVideoRepository videoRepository, IVideoFileRepository videoFileRepository)
     {
-        private readonly IVideoRepository _videoRepository;
-        private readonly IVideoFileRepository _videoFileRepository;
+        _videoRepository = videoRepository;
+        _videoFileRepository = videoFileRepository;
+    }
 
-        public UploadVideoCommandHandler(IVideoRepository videoRepository, IVideoFileRepository videoFileRepository)
+    public async Task<VideoMetadata> Handle(UploadVideoCommand request, CancellationToken cancellationToken)
+    {
+        var videoId = Guid.NewGuid().ToString();
+        var videoFile = new VideoFile { File = request.VideoFile };
+
+        try
         {
-            _videoRepository = videoRepository;
-            _videoFileRepository = videoFileRepository;
-        }
-
-        public async Task<VideoMetadata> Handle(UploadVideoCommand request, CancellationToken cancellationToken)
-        {
-            var videoFile = new VideoFile { File = request.VideoFile };
-            var isFileSaved = await _videoFileRepository.SaveFileAsync(videoFile);
-
             var videoMetadata = new VideoMetadata
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = videoId,
                 FileName = request.VideoFile.FileName,
                 Title = request.Title,
                 Description = request.Description,
+                //Comments = 
             };
 
-            var createdResourse = await _videoRepository.CreateMetadataAsync(videoMetadata);
+            var createdResourse = await _videoRepository.CreateItemAsync(videoMetadata, videoId);
+
+            var isFileSaved = await _videoFileRepository.SaveFileAsync(videoFile, request.Progress);
 
             return createdResourse;
+        }
+        catch (Exception)
+        {
+            await _videoRepository.DeleteItemIfExistsAsync(videoId);
+            _videoFileRepository.DeleteFileAsync(videoFile);
+            throw;
         }
     }
 }

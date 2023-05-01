@@ -2,6 +2,6 @@
 
 namespace VideoHosting.Core.Interfaces;
 
-public interface IVideoRepository : IBaseRepository<VideoMetadata>
+public interface ITagRepository : IBaseRepository<Tag>
 {
 }

@@ -1,16 +1,24 @@
 ﻿using Newtonsoft.Json;
 
-namespace VideoHosting.Core.Entities
+namespace VideoHosting.Core.Entities;
+
+public class VideoMetadata : Base
 {
-    public class VideoMetadata : VideoBase
-    {
-        [JsonProperty("fileName")]
-        public string FileName { get; set; }
+    [JsonProperty("fileName")]
+    public string FileName { get; set; } = default!;
 
-        [JsonProperty("title")]
-        public string Title { get; set; }
+    [JsonProperty("title")]
+    public string Title { get; set; } = default!;
 
-        [JsonProperty("description")]
-        public string Description { get; set; }
-    }
+    [JsonProperty("description")]
+    public string Description { get; set; } = default!;
+
+    [JsonProperty("tags")]
+    public List<Tag> Tags { get; set; } = default!;
+
+    [JsonProperty("comments")]
+    public List<Comment> Comments { get; set; } = default!;
+
+    [JsonProperty("Views")]
+    public long Views { get; set; } = default!;
 }

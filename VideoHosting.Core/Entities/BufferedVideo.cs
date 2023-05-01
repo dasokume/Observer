@@ -1,11 +1,10 @@
-﻿namespace VideoHosting.Core.Entities
+﻿namespace VideoHosting.Core.Entities;
+
+public class BufferedVideo
 {
-    public class BufferedVideo : VideoBase
-    {
-        public int BufferSize { get; set; }
+    public int BufferSize { get; set; } = default!;
 
-        public byte[] Buffer { get; set; }
+    public byte[] Buffer { get; set; } = default!;
 
-        public int BytesRead { get; set; }
-    }
+    public int BytesRead { get; set; } = default!;
 }
