@@ -1,11 +1,12 @@
 ﻿using VideoHosting.Core.Entities;
 using VideoHosting.Core.Interfaces;
+using VideoHosting.Infrastructure.Constants;
 
 namespace VideoHosting.Infrastructure.Repositories;
 
 public class CommentRepository : BaseRepository<Comment>, ICommentRepository
 {
-    public CommentRepository(CosmosDbContext cosmosDbContext) : base(cosmosDbContext)
+    public CommentRepository(CosmosDbContext cosmosDbContext) : base(cosmosDbContext, PartitionKeys.VideoCommentsKey)
     {
     }
 }

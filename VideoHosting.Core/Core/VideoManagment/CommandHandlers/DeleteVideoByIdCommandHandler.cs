@@ -18,11 +18,11 @@ public class DeleteVideoByIdCommandHandler : IRequestHandler<DeleteVideoByIdComm
 
     public async Task<bool> Handle(DeleteVideoByIdCommand request, CancellationToken cancellationToken)
     {
-        var videoMetadata = await _videoRepository.GetItemAsync(request.Id);
+        var videoMetadata = await _videoRepository.GetAsync(request.Id);
 
         var isFileDeleted = _videoFileRepository.DeleteFileAsync(new VideoFile { FileName = videoMetadata.FileName });
 
-        var isMetadataDeleted = await _videoRepository.DeleteItemAsync(request.Id);
+        var isMetadataDeleted = await _videoRepository.DeleteAsync(request.Id);
 
         return isFileDeleted && isMetadataDeleted;
     }

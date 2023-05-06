@@ -1,7 +1,9 @@
-﻿namespace VideoHosting.Core.Entities;
+﻿namespace VideoHosting.API.ViewModels;
 
-public class Comment : Base
+public class CommentViewModel
 {
+    public string Id { get; set; } = default!;
+
     public string VideoMetadataId { get; set; } = default!;
 
     public string Text { get; set; } = default!;

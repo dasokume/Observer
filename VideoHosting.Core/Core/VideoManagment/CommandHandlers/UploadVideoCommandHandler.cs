@@ -29,10 +29,10 @@ public class UploadVideoCommandHandler : IRequestHandler<UploadVideoCommand, Vid
                 FileName = request.VideoFile.FileName,
                 Title = request.Title,
                 Description = request.Description,
-                //Comments = 
+                Tags = request.Tags
             };
 
-            var createdResourse = await _videoRepository.CreateItemAsync(videoMetadata, videoId);
+            var createdResourse = await _videoRepository.CreateAsync(videoMetadata);
 
             var isFileSaved = await _videoFileRepository.SaveFileAsync(videoFile, request.Progress);
 
@@ -40,7 +40,7 @@ public class UploadVideoCommandHandler : IRequestHandler<UploadVideoCommand, Vid
         }
         catch (Exception)
         {
-            await _videoRepository.DeleteItemIfExistsAsync(videoId);
+            await _videoRepository.DeleteIfExistsAsync(videoId);
             _videoFileRepository.DeleteFileAsync(videoFile);
             throw;
         }

@@ -14,10 +14,7 @@ public class VideoMetadata : Base
     public string Description { get; set; } = default!;
 
     [JsonProperty("tags")]
-    public List<Tag> Tags { get; set; } = default!;
-
-    [JsonProperty("comments")]
-    public List<Comment> Comments { get; set; } = default!;
+    public List<Tag>? Tags { get; set; }
 
     [JsonProperty("Views")]
     public long Views { get; set; } = default!;

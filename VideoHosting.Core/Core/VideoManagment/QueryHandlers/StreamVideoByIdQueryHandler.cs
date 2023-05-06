@@ -18,7 +18,7 @@ public class StreamVideoByIdQueryHandler : IStreamRequestHandler<StreamVideoById
 
     public IAsyncEnumerable<BufferedVideo> Handle(StreamVideoByIdQuery request, CancellationToken cancellationToken)
     {
-        var videoMetadata = _videoRepository.GetItemAsync(request.Id).GetAwaiter().GetResult();
+        var videoMetadata = _videoRepository.GetAsync(request.Id).GetAwaiter().GetResult();
 
         var videoFile = new VideoFile { FileName = videoMetadata.FileName };
 

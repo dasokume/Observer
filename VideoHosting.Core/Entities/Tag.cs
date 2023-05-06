@@ -1,6 +1,6 @@
 ﻿namespace VideoHosting.Core.Entities;
 
-public class Tag : Base
+public class Tag
 {
     public string Name { get; set; } = default!;
 }

@@ -8,7 +8,7 @@ using VideoHosting.Core.VideoManagment.Queries;
 namespace VideoHosting.API.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class VideoController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -39,7 +39,16 @@ public class VideoController : ControllerBase
             Content(percent);
         });
 
-        var createdVideoMetadata = await _mediator.Send(new UploadVideoCommand(video.File, video.Title, video.Description, progress));
+        var uploadVideoCommand = new UploadVideoCommand
+        {
+            VideoFile = video.File,
+            Title = video.Title,
+            Description = video.Description,
+            Tags = video.Tags?.Select(x => new Tag { Name = x }).ToList(),
+            Progress = progress
+        };
+
+        var createdVideoMetadata = await _mediator.Send(uploadVideoCommand);
         return createdVideoMetadata;
     }
 

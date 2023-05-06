@@ -1,34 +1,25 @@
 ﻿using Microsoft.Azure.Cosmos;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System.Net;
+using VideoHosting.Infrastructure.Interfaces;
 
 namespace VideoHosting.Infrastructure;
 
 public class CosmosDbContext
 {
     private readonly ILogger<CosmosDbInitializer> _logger;
-
-    // REFACTOR THIS SHIT
-    public Container Tags { get; set; }
-    public Container Comments { get; set; }
     private readonly Container _container;
-
     private readonly CosmosClient _cosmosClient;
-    
 
-    public CosmosDbContext(IConfiguration config, ILogger<CosmosDbInitializer> logger)
+    public CosmosDbContext(IConfigurationParser configurationParser, ILogger<CosmosDbInitializer> logger)
     {
         _logger = logger;
-
-        var cosmosDbSettings = config.GetSection("CosmosDbSettings");
-        _cosmosClient = new CosmosClient(cosmosDbSettings["EndpointUri"], cosmosDbSettings["PrimaryKey"]);
-        _container = _cosmosClient.GetContainer(cosmosDbSettings["DatabaseName"], cosmosDbSettings["ContainerName"]);
-        Tags = _cosmosClient.GetContainer(cosmosDbSettings["DatabaseName"], "Tags");
-        Comments = _cosmosClient.GetContainer(cosmosDbSettings["DatabaseName"], "Comments");
+        var cosmosDbSettings = configurationParser.GetCosmosDbSettings();
+        _cosmosClient = new CosmosClient(cosmosDbSettings.EndpointUri, cosmosDbSettings.PrimaryKey);
+        _container = _cosmosClient.GetContainer(cosmosDbSettings.DatabaseName, cosmosDbSettings.ContainerName);
     }
 
-    public async Task<T> ReadItemAsync<T>(string id, string partitionKeyValue)
+    public async Task<T> ReadAsync<T>(string id, string partitionKeyValue)
     {
         try
         {
@@ -43,7 +34,7 @@ public class CosmosDbContext
         }
     }
 
-    public async Task<T> CreateItemAsync<T>(T item, string partitionKeyValue)
+    public async Task<T> CreateAsync<T>(T item, string partitionKeyValue)
     {
         try
         {
@@ -58,7 +49,7 @@ public class CosmosDbContext
         }
     }
 
-    public async Task<bool> DeleteItemAsync<T>(string id, string partitionKeyValue)
+    public async Task<bool> DeleteAsync<T>(string id, string partitionKeyValue)
     {
         try
         {
@@ -73,7 +64,7 @@ public class CosmosDbContext
         }
     }
 
-    public async Task<bool> DeleteItemIfExistsAsync<T>(string id, string partitionKeyValue)
+    public async Task<bool> DeleteIfExistsAsync<T>(string id, string partitionKeyValue)
     {
         var partitionKey = GetPartitionKey(partitionKeyValue);
         var item = await _container.ReadItemAsync<T>(id, partitionKey);
@@ -87,11 +78,11 @@ public class CosmosDbContext
         return true;
     }
 
-    public async Task<T> UpdateItemAsync<T>(T item, string id, string partitionKeyValue)
+    public async Task<T> UpdateAsync<T>(T item, string id, string partitionKeyValue)
     {
         try
         {
-            var responce = await Tags.ReplaceItemAsync(item, id, GetPartitionKey(partitionKeyValue));
+            var responce = await _container.ReplaceItemAsync(item, id, GetPartitionKey(partitionKeyValue));
             return GetResult(responce);
         }
         catch (Exception ex)
@@ -101,7 +92,7 @@ public class CosmosDbContext
         }
     }
 
-    private PartitionKey GetPartitionKey(string partitionKeyValue)
+    private static PartitionKey GetPartitionKey(string partitionKeyValue)
     {
         return new PartitionKey(partitionKeyValue);
     }

@@ -9,8 +9,8 @@
   <ItemGroup>
     <Compile Remove="Interfaces\IDataAccess.cs" />
     <Compile Remove="Interfaces\IFileManager.cs" />
-    <Compile Remove="VideoManagment\Queries\GetVideoByIdQuery.cs" />
-    <Compile Remove="VideoManagment\QueryHandlers\GetVideoByIdQueryHandler.cs" />
+    <Compile Remove="Core\VideoManagment\Queries\GetVideoByIdQuery.cs" />
+    <Compile Remove="Core\VideoManagment\QueryHandlers\GetVideoByIdQueryHandler.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -4,7 +4,9 @@ using NLog;
 using NLog.Web;
 using VideoHosting.Core.Interfaces;
 using VideoHosting.Infrastructure;
+using VideoHosting.Infrastructure.Interfaces;
 using VideoHosting.Infrastructure.Repositories;
+using VideoHosting.Infrastructure.Utility;
 
 var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 logger.Debug("init main");
@@ -31,6 +33,8 @@ try
     builder.Services.Configure<CosmosDbSettings>(builder.Configuration.GetSection("CosmosDbSettings"));
     builder.Services.AddScoped<IVideoFileRepository, VideoFileRepository>();
     builder.Services.AddScoped<IVideoRepository, VideoRepository>();
+    builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+    builder.Services.AddScoped<IConfigurationParser, ConfigurationParser>();
     builder.Services.Configure<IISServerOptions>(options =>
     {
         options.MaxRequestBodySize = int.MaxValue;
