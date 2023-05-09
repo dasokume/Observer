@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using VideoHosting.Core.Entities;
 
-namespace VideoHosting.Core.VideoManagment.Commands;
+namespace VideoHosting.Core.Video.Commands;
 
 public record UploadVideoCommand : IRequest<VideoMetadata>
 {

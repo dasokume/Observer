@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using VideoHosting.Core.Entities;
 
-namespace VideoHosting.Core.VideoManagment.Queries;
+namespace VideoHosting.Core.Video.Queries;
 
 public record StreamVideoByIdQuery(string Id) : IStreamRequest<BufferedVideo>;

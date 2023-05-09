@@ -9,8 +9,8 @@
   <ItemGroup>
     <Compile Remove="Interfaces\IDataAccess.cs" />
     <Compile Remove="Interfaces\IFileManager.cs" />
-    <Compile Remove="Core\VideoManagment\Queries\GetVideoByIdQuery.cs" />
-    <Compile Remove="Core\VideoManagment\QueryHandlers\GetVideoByIdQueryHandler.cs" />
+    <Compile Remove="Core\Video\Queries\GetVideoByIdQuery.cs" />
+    <Compile Remove="Core\Video\QueryHandlers\GetVideoByIdQueryHandler.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,11 +29,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Videos\sample.mp4">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Update="VideoSamples\sample.mp4">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
-    <None Update="Videos\sample1.mp4">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Update="VideoSamples\sample1.mp4">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 

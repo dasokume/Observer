@@ -1,9 +1,9 @@
 ﻿using MediatR;
 using VideoHosting.Core.Entities;
 using VideoHosting.Core.Interfaces;
-using VideoHosting.Core.VideoManagment.Commands;
+using VideoHosting.Core.Video.Commands;
 
-namespace VideoHosting.Core.VideoManagment.CommandHandlers;
+namespace VideoHosting.Core.Video.CommandHandlers;
 
 public class DeleteVideoByIdCommandHandler : IRequestHandler<DeleteVideoByIdCommand, bool>
 {

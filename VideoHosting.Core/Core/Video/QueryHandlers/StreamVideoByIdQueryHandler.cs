@@ -1,9 +1,9 @@
 ﻿using MediatR;
 using VideoHosting.Core.Entities;
 using VideoHosting.Core.Interfaces;
-using VideoHosting.Core.VideoManagment.Queries;
+using VideoHosting.Core.Video.Queries;
 
-namespace VideoHosting.Core.VideoManagment.QueryHandlers;
+namespace VideoHosting.Core.Video.QueryHandlers;
 
 public class StreamVideoByIdQueryHandler : IStreamRequestHandler<StreamVideoByIdQuery, BufferedVideo>
 {
