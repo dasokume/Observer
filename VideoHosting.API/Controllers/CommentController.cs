@@ -1,6 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using VideoHosting.API.ViewModels;
+using VideoHosting.Core.Comments.Commands;
+using VideoHosting.Core.Comments.Queries;
 
 namespace VideoHosting.API.Controllers;
 
@@ -18,24 +20,66 @@ public class CommentController : ControllerBase
     [HttpGet("{videoId}")]
     public async Task<List<CommentViewModel>> GetComments(string videoId)
     {
-        throw new NotImplementedException();
+        var comments = await _mediator.Send(new GetCommentsQuery(videoId));
+        var commentsViewModel = new List<CommentViewModel>();
+        
+        foreach (var comment in comments)
+        {
+            commentsViewModel.Add(new CommentViewModel
+            {
+                Id = comment.Id,
+                CommentDate = comment.CommentDate,
+                Text = comment.Text,
+                VideoMetadataId = comment.VideoMetadataId,
+            });
+        }
+
+        return commentsViewModel;
     }
 
     [HttpPost]
-    public async Task<CommentViewModel> PostComment(CommentViewModel commentViewModel)
+    public async Task<CommentViewModel> CreateComment(CommentViewModel commentViewModel)
     {
-        throw new NotImplementedException();
+        var createCommentCommand = new CreateCommentCommand
+        {
+            Text = commentViewModel.Text,
+            VideoMetadataId = commentViewModel.VideoMetadataId,
+        };
+
+        var comment = await _mediator.Send(createCommentCommand);
+
+        return new CommentViewModel
+        {
+            Id = comment.Id,
+            VideoMetadataId = comment.VideoMetadataId,
+            Text = comment.Text,
+            CommentDate = comment.CommentDate
+        };
     }
 
     [HttpPatch]
-    public async Task<CommentViewModel> EditComment(CommentViewModel commentViewModel)
+    public async Task<CommentViewModel> UpdateComment(CommentViewModel commentViewModel)
     {
-        throw new NotImplementedException();
+        var updateCommentCommand = new UpdateCommentCommand
+        {
+            Text = commentViewModel.Text,
+            VideoMetadataId = commentViewModel.VideoMetadataId,
+        };
+
+        var comment = await _mediator.Send(updateCommentCommand);
+
+        return new CommentViewModel
+        {
+            Id = comment.Id,
+            VideoMetadataId = comment.VideoMetadataId,
+            Text = comment.Text,
+            CommentDate = comment.CommentDate
+        };
     }
 
-    [HttpDelete("{videoId}")]
+    [HttpDelete]
     public async Task<bool> DeleteComment(string commentId)
     {
-        throw new NotImplementedException();
+        return await _mediator.Send(new DeleteCommentCommand(commentId));
     }
 }

@@ -2,8 +2,8 @@
 
 namespace VideoHosting.Core.Entities;
 
-public class Base
+public record Base
 {
     [JsonProperty("id")]
-    public string Id { get; set; } = default!;
+    public string Id { get; init; } = default!;
 }

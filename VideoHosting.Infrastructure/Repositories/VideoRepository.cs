@@ -1,4 +1,5 @@
-﻿using VideoHosting.Core.Entities;
+﻿using System.Linq.Expressions;
+using VideoHosting.Core.Entities;
 using VideoHosting.Core.Interfaces;
 using VideoHosting.Infrastructure.Constants;
 
@@ -8,5 +9,10 @@ public class VideoRepository : BaseRepository<VideoMetadata>, IVideoRepository
 {
     public VideoRepository(CosmosDbContext cosmosDbContext) : base(cosmosDbContext, PartitionKeys.VideoMetadataKey)
     {
+    }
+
+    public override Task<IList<VideoMetadata>> WhereAsync(Expression<Func<VideoMetadata, bool>> predicate)
+    {
+        throw new NotImplementedException();
     }
 }

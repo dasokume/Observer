@@ -1,5 +1,5 @@
-﻿namespace VideoHosting.Core.Comments.Commands;
+﻿using MediatR;
 
-public record DeleteCommentCommand
-{
-}
+namespace VideoHosting.Core.Comments.Commands;
+
+public record DeleteCommentCommand(string Id) : IRequest<bool>;

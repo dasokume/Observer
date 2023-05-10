@@ -1,10 +1,10 @@
 ﻿namespace VideoHosting.Core.Entities;
 
-public class Comment : Base
+public record Comment : Base
 {
-    public string VideoMetadataId { get; set; } = default!;
+    public string VideoMetadataId { get; init; } = default!;
 
-    public string Text { get; set; } = default!;
+    public string Text { get; init; } = default!;
 
-    public DateTime CommentDate { get; set; } = DateTime.Now;
+    public DateTime CommentDate { get; init; } = DateTime.Now;
 }

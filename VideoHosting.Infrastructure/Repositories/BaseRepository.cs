@@ -1,4 +1,5 @@
-﻿using VideoHosting.Core.Interfaces;
+﻿using System.Linq.Expressions;
+using VideoHosting.Core.Interfaces;
 
 namespace VideoHosting.Infrastructure.Repositories;
 
@@ -43,4 +44,6 @@ public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity> where T
     {
         return await _cosmosDbContext.DeleteIfExistsAsync<TEntity>(id, _partitionKeyValue);
     }
+
+    public abstract Task<IList<TEntity>> WhereAsync(Expression<Func<TEntity, bool>> predicate);
 }

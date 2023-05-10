@@ -1,6 +1,9 @@
 ﻿using Microsoft.Azure.Cosmos;
+using Microsoft.Azure.Cosmos.Linq;
 using Microsoft.Extensions.Logging;
+using System.Linq.Expressions;
 using System.Net;
+using VideoHosting.Core.Entities;
 using VideoHosting.Infrastructure.Interfaces;
 
 namespace VideoHosting.Infrastructure;
@@ -26,6 +29,33 @@ public class CosmosDbContext
             var response = await _container.ReadItemAsync<T>(id, GetPartitionKey(partitionKeyValue));
 
             return GetResult(response);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogCritical(ex.Message);
+            throw;
+        }
+    }
+
+    public async Task<IList<T>> WhereAsync<T>(Expression<Func<T, bool>> predicate)
+    {
+        try
+        {
+            using FeedIterator<T> setIterator = _container.GetItemLinqQueryable<T>()
+                .Where(predicate)
+                .ToFeedIterator();
+
+            var entities = new List<T>();
+
+            while (setIterator.HasMoreResults)
+            {
+                foreach (var item in await setIterator.ReadNextAsync())
+                {
+                    entities.Add(item);
+                }
+            }
+
+            return entities;
         }
         catch (Exception ex)
         {

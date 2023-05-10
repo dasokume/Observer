@@ -2,8 +2,8 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using VideoHosting.API.ViewModels;
 using VideoHosting.Core.Entities;
-using VideoHosting.Core.VideoManagment.Commands;
-using VideoHosting.Core.VideoManagment.Queries;
+using VideoHosting.Core.Video.Commands;
+using VideoHosting.Core.Video.Queries;
 
 namespace VideoHosting.API.Controllers;
 

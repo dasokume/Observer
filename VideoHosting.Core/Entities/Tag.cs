@@ -1,6 +1,6 @@
 ﻿namespace VideoHosting.Core.Entities;
 
-public class Tag
+public record Tag
 {
-    public string Name { get; set; } = default!;
+    public string Name { get; init; } = default!;
 }

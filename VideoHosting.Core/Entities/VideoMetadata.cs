@@ -2,20 +2,20 @@
 
 namespace VideoHosting.Core.Entities;
 
-public class VideoMetadata : Base
+public record VideoMetadata : Base
 {
     [JsonProperty("fileName")]
-    public string FileName { get; set; } = default!;
+    public string FileName { get; init; } = default!;
 
     [JsonProperty("title")]
-    public string Title { get; set; } = default!;
+    public string Title { get; init; } = default!;
 
     [JsonProperty("description")]
-    public string Description { get; set; } = default!;
+    public string Description { get; init; } = default!;
 
     [JsonProperty("tags")]
-    public List<Tag>? Tags { get; set; }
+    public List<Tag>? Tags { get; init; }
 
     [JsonProperty("Views")]
-    public long Views { get; set; } = default!;
+    public long Views { get; init; } = default!;
 }

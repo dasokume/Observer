@@ -2,9 +2,9 @@
 
 namespace VideoHosting.Core.Entities;
 
-public class VideoFile : Base
+public record VideoFile : Base
 {
-    public IFormFile File { get; set; } = default!;
+    public IFormFile File { get; init; } = default!;
 
-    public string FileName { get; set; } = default!;
+    public string FileName { get; init; } = default!;
 }

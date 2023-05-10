@@ -1,6 +1,6 @@
 ﻿namespace VideoHosting.Core.Entities;
 
-public class BufferedVideo
+public record BufferedVideo
 {
     public int BufferSize { get; set; } = default!;
 
