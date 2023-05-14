@@ -34,7 +34,7 @@ try
     builder.Services.AddScoped<IVideoFileRepository, VideoFileRepository>();
     builder.Services.AddScoped<IVideoRepository, VideoRepository>();
     builder.Services.AddScoped<ICommentRepository, CommentRepository>();
-    builder.Services.AddScoped<IConfigurationParser, ConfigurationParser>();
+    builder.Services.AddSingleton<IConfigurationParser, ConfigurationParser>();
     builder.Services.Configure<IISServerOptions>(options =>
     {
         options.MaxRequestBodySize = int.MaxValue;

@@ -2,6 +2,6 @@
 
 public static class PartitionKeys
 {
-    public const string VideoMetadataKey = "metadata";
-    public const string VideoCommentsKey = "comment";
+    public const string VideoMetadataKey = "/metadata";
+    public const string VideoCommentsKey = "/comment";
 }
