@@ -22,7 +22,7 @@ public class CosmosDbContext
         _container = _cosmosClient.GetContainer(cosmosDbSettings.DatabaseName, cosmosDbSettings.ContainerName);
     }
 
-    public async Task<T> ReadAsync<T>(string id, string partitionKeyValue)
+    public async Task<T> ReadAsync<T>(string id, string partitionKeyValue) where T : Base
     {
         try
         {
@@ -37,7 +37,7 @@ public class CosmosDbContext
         }
     }
 
-    public async Task<IList<T>> WhereAsync<T>(Expression<Func<T, bool>> predicate)
+    public async Task<IList<T>> WhereAsync<T>(Expression<Func<T, bool>> predicate) where T : Base
     {
         try
         {
@@ -64,11 +64,11 @@ public class CosmosDbContext
         }
     }
 
-    public async Task<T> CreateAsync<T>(T item, string partitionKeyValue)
+    public async Task<T> CreateAsync<T>(T item) where T : Base
     {
         try
         {
-            var response = await _container.CreateItemAsync(item, GetPartitionKey(partitionKeyValue));
+            var response = await _container.CreateItemAsync(item, GetPartitionKey(item.PartitionKey));
 
             return GetResult(response);
         }
@@ -79,7 +79,7 @@ public class CosmosDbContext
         }
     }
 
-    public async Task<bool> DeleteAsync<T>(string id, string partitionKeyValue)
+    public async Task<bool> DeleteAsync<T>(string id, string partitionKeyValue) where T : Base
     {
         try
         {
@@ -94,7 +94,7 @@ public class CosmosDbContext
         }
     }
 
-    public async Task<bool> DeleteIfExistsAsync<T>(string id, string partitionKeyValue)
+    public async Task<bool> DeleteIfExistsAsync<T>(string id, string partitionKeyValue) where T : Base
     {
         var partitionKey = GetPartitionKey(partitionKeyValue);
         var item = await _container.ReadItemAsync<T>(id, partitionKey);
@@ -108,11 +108,11 @@ public class CosmosDbContext
         return true;
     }
 
-    public async Task<T> UpdateAsync<T>(T item, string id, string partitionKeyValue)
+    public async Task<T> UpdateAsync<T>(T item, string id) where T : Base
     {
         try
         {
-            var responce = await _container.ReplaceItemAsync(item, id, GetPartitionKey(partitionKeyValue));
+            var responce = await _container.ReplaceItemAsync(item, id, GetPartitionKey(item.PartitionKey));
             return GetResult(responce);
         }
         catch (Exception ex)

@@ -1,4 +1,6 @@
-﻿namespace VideoHosting.Core.Entities;
+﻿using VideoHosting.Infrastructure.Constants;
+
+namespace VideoHosting.Core.Entities;
 
 public record Comment : Base
 {
@@ -7,4 +9,8 @@ public record Comment : Base
     public string Text { get; init; } = default!;
 
     public DateTime CommentDate { get; init; } = DateTime.Now;
+
+    public Comment() : base(PartitionKeys.CommentKey)
+    {
+    }
 }

@@ -7,7 +7,7 @@ namespace VideoHosting.Infrastructure.Repositories;
 
 public class CommentRepository : BaseRepository<Comment>, ICommentRepository
 {
-    public CommentRepository(CosmosDbContext cosmosDbContext) : base(cosmosDbContext, PartitionKeys.VideoCommentsKey)
+    public CommentRepository(CosmosDbContext cosmosDbContext) : base(cosmosDbContext, PartitionKeys.CommentKey)
     {
     }
 

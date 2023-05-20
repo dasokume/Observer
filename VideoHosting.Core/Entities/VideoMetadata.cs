@@ -1,11 +1,12 @@
 ﻿using Newtonsoft.Json;
+using VideoHosting.Infrastructure.Constants;
 
 namespace VideoHosting.Core.Entities;
 
 public record VideoMetadata : Base
 {
     [JsonProperty("fileName")]
-    public string FileName { get; init; } = default!;
+    public string FileName { get; set; } = default!;
 
     [JsonProperty("title")]
     public string Title { get; init; } = default!;
@@ -18,4 +19,8 @@ public record VideoMetadata : Base
 
     [JsonProperty("Views")]
     public long Views { get; init; } = default!;
+
+    public VideoMetadata() : base(PartitionKeys.VideoMetadataKey)
+    {
+    }
 }

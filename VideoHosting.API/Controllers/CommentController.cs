@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using VideoHosting.API.ViewModels;
 using VideoHosting.Core.Comments.Commands;
@@ -8,6 +9,7 @@ using VideoHosting.Core.Comments.Queries;
 namespace VideoHosting.API.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("api/[controller]")]
 public class CommentController : ControllerBase
 {

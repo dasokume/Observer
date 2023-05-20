@@ -32,11 +32,10 @@ public class VideoFileRepository : IVideoFileRepository
 
     public async Task<bool> SaveFileAsync(VideoFile video, IProgress<string> progress)
     {
-        var videoFileName = video.File.FileName;
-        var videoFilePath = Path.Combine(_videosDirectory, videoFileName);
+        var videoFilePath = Path.Combine(_videosDirectory, video.FileName);
         if (File.Exists(videoFilePath))
         {
-            throw new Exception($"A file with the name {videoFileName} already exists.");
+            throw new Exception($"A file with the name {video.FileName} already exists.");
         }
 
         byte[] buffer = new byte[16 * 1024];

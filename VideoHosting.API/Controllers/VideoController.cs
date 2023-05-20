@@ -1,5 +1,6 @@
 using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using VideoHosting.API.ViewModels;
 using VideoHosting.Core.Entities;
@@ -9,6 +10,7 @@ using VideoHosting.Core.Video.Queries;
 namespace VideoHosting.API.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("api/[controller]")]
 public class VideoController : ControllerBase
 {
@@ -35,6 +37,7 @@ public class VideoController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize("write:video")]
     public async Task<VideoMetadata> UploadVideo([FromForm] UploadVideoViewModel video)
     {
         var progress = new Progress<string>(percent =>
