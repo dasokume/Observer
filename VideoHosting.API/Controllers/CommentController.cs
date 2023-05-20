@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using VideoHosting.API.ViewModels;
 using VideoHosting.Core.Comments.Commands;
@@ -11,28 +12,19 @@ namespace VideoHosting.API.Controllers;
 public class CommentController : ControllerBase
 {
     private readonly IMediator _mediator;
+    private readonly IMapper _mapper;
 
-    public CommentController(IMediator mediator)
+    public CommentController(IMediator mediator, IMapper mapper)
     {
         _mediator = mediator;
+        _mapper = mapper;
     }
 
     [HttpGet("{videoId}")]
     public async Task<List<CommentViewModel>> GetComments(string videoId)
     {
         var comments = await _mediator.Send(new GetCommentsQuery(videoId));
-        var commentsViewModel = new List<CommentViewModel>();
-        
-        foreach (var comment in comments)
-        {
-            commentsViewModel.Add(new CommentViewModel
-            {
-                Id = comment.Id,
-                CommentDate = comment.CommentDate,
-                Text = comment.Text,
-                VideoMetadataId = comment.VideoMetadataId,
-            });
-        }
+        var commentsViewModel = _mapper.Map<List<CommentViewModel>>(comments);
 
         return commentsViewModel;
     }
@@ -40,41 +32,21 @@ public class CommentController : ControllerBase
     [HttpPost]
     public async Task<CommentViewModel> CreateComment(CommentViewModel commentViewModel)
     {
-        var createCommentCommand = new CreateCommentCommand
-        {
-            Text = commentViewModel.Text,
-            VideoMetadataId = commentViewModel.VideoMetadataId,
-        };
-
+        var createCommentCommand = _mapper.Map<CreateCommentCommand>(commentViewModel);
         var comment = await _mediator.Send(createCommentCommand);
+        var commentViewModelResult = _mapper.Map<CommentViewModel>(comment);
 
-        return new CommentViewModel
-        {
-            Id = comment.Id,
-            VideoMetadataId = comment.VideoMetadataId,
-            Text = comment.Text,
-            CommentDate = comment.CommentDate
-        };
+        return commentViewModelResult;
     }
 
     [HttpPatch]
     public async Task<CommentViewModel> UpdateComment(CommentViewModel commentViewModel)
     {
-        var updateCommentCommand = new UpdateCommentCommand
-        {
-            Text = commentViewModel.Text,
-            VideoMetadataId = commentViewModel.VideoMetadataId,
-        };
-
+        var updateCommentCommand = _mapper.Map<UpdateCommentCommand>(commentViewModel);
         var comment = await _mediator.Send(updateCommentCommand);
+        var commentViewModelResult = _mapper.Map<CommentViewModel>(comment);
 
-        return new CommentViewModel
-        {
-            Id = comment.Id,
-            VideoMetadataId = comment.VideoMetadataId,
-            Text = comment.Text,
-            CommentDate = comment.CommentDate
-        };
+        return commentViewModelResult;
     }
 
     [HttpDelete]

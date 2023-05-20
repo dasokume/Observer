@@ -14,5 +14,5 @@ public record UploadVideoCommand : IRequest<VideoMetadata>
 
     public List<Tag>? Tags { get; init; }
 
-    public IProgress<string> Progress { get; init; } = default!;
+    public IProgress<string> Progress { get; set; } = default!;
 };

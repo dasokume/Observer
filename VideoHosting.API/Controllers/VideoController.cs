@@ -1,3 +1,4 @@
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using VideoHosting.API.ViewModels;
@@ -12,10 +13,12 @@ namespace VideoHosting.API.Controllers;
 public class VideoController : ControllerBase
 {
     private readonly IMediator _mediator;
+    private readonly IMapper _mapper;
 
-    public VideoController(IMediator mediator)
+    public VideoController(IMediator mediator, IMapper mapper)
     {
         _mediator = mediator;
+        _mapper = mapper;
     }
 
     [HttpGet("{id}")]
@@ -39,14 +42,8 @@ public class VideoController : ControllerBase
             Content(percent);
         });
 
-        var uploadVideoCommand = new UploadVideoCommand
-        {
-            VideoFile = video.File,
-            Title = video.Title,
-            Description = video.Description,
-            Tags = video.Tags?.Select(x => new Tag { Name = x }).ToList(),
-            Progress = progress
-        };
+        var uploadVideoCommand = _mapper.Map<UploadVideoCommand>(video);
+        uploadVideoCommand.Progress = progress;
 
         var createdVideoMetadata = await _mediator.Send(uploadVideoCommand);
         return createdVideoMetadata;

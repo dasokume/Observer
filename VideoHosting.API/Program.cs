@@ -1,7 +1,9 @@
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using NLog;
 using NLog.Web;
+using VideoHosting.API.Mapping;
 using VideoHosting.Core.Interfaces;
 using VideoHosting.Infrastructure;
 using VideoHosting.Infrastructure.Interfaces;
@@ -51,7 +53,7 @@ try
     {
         options.MaxRequestBodySize = int.MaxValue;
     });
-
+    builder.Services.AddAutoMapper(typeof(MappingProfile));
     // NLog: Setup NLog for Dependency injection
     builder.Logging.ClearProviders();
     builder.Host.UseNLog();
