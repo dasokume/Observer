@@ -8,10 +8,5 @@ public class UploadVideoViewModel
 
     public string Description { get; set; } = default!;
 
-    public List<string> Tags { get; set; }
-
-    public UploadVideoViewModel()
-    {
-        Tags = new List<string>();
-    }
+    public List<string> Tags { get; set; } = new List<string>();
 }

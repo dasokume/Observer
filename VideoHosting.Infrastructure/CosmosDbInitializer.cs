@@ -1,5 +1,6 @@
 ﻿using Microsoft.Azure.Cosmos;
 using Microsoft.Extensions.Logging;
+using VideoHosting.Infrastructure.Constants;
 using VideoHosting.Infrastructure.Interfaces;
 
 namespace VideoHosting.Infrastructure;
@@ -23,7 +24,7 @@ public class CosmosDbInitializer
         {
             await _cosmosClient.CreateDatabaseIfNotExistsAsync(_cosmosDbSettings.DatabaseName);
             var database = _cosmosClient.GetDatabase(_cosmosDbSettings.DatabaseName);
-            await database.CreateContainerIfNotExistsAsync(_cosmosDbSettings.ContainerName, "/partitionKey");
+            await database.CreateContainerIfNotExistsAsync(_cosmosDbSettings.ContainerName, PartitionKeys.PartitionKeyPath);
             _cosmosClient.Dispose();
 
             _logger.LogInformation("Database was initialized");
