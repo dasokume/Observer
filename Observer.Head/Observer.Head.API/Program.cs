@@ -15,6 +15,7 @@ using Observer.Head.Infrastructure;
 using Observer.Head.Infrastructure.Interfaces;
 using Observer.Head.Infrastructure.Repositories;
 using Observer.Head.Infrastructure.Utility;
+using Observer.Head.Core.gRPC;
 
 var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 logger.Debug("init main");
@@ -22,6 +23,8 @@ logger.Debug("init main");
 try
 {
     var builder = WebApplication.CreateBuilder(args);
+
+    builder.Services.AddGrpc();
 
     var domain = $"https://{builder.Configuration["Auth0:Domain"]}/";
     builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -133,6 +136,8 @@ try
     builder.Host.UseNLog();
 
     var app = builder.Build();
+
+    app.MapGrpcService<GreeterService>();
 
     // Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment())
