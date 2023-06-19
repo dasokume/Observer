@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Observer.Head.Core", "Obser
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Observer.Head.Infrastructure", "Observer.Head.Infrastructure\Observer.Head.Infrastructure.csproj", "{CBD50CBE-EE6E-4258-A223-B8B900EFD980}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Observer.Head.Tests", "Observer.Tests\Observer.Head.Tests.csproj", "{BD1D4E59-C649-4F2A-8753-57B2F8035B57}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{CBD50CBE-EE6E-4258-A223-B8B900EFD980}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CBD50CBE-EE6E-4258-A223-B8B900EFD980}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CBD50CBE-EE6E-4258-A223-B8B900EFD980}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD1D4E59-C649-4F2A-8753-57B2F8035B57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD1D4E59-C649-4F2A-8753-57B2F8035B57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD1D4E59-C649-4F2A-8753-57B2F8035B57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD1D4E59-C649-4F2A-8753-57B2F8035B57}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
