@@ -44,6 +44,7 @@ public class UploadVideoCommandHandler : IRequestHandler<UploadVideoCommand, Vid
                 VideoMetadataId = videoMetadata.Id,
                 FileName = newFileName
             };
+
             await _videoFileGrpcClient.SaveFileAsync(videoFile, request.Progress);
 
             return createdResourse;

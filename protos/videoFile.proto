@@ -10,6 +10,17 @@ message DeleteFileResponse {
     bool isDeleted = 1;
 }
 
+message SaveFileRequest {
+    string fileName = 1;
+    bytes fileContent = 2;
+    int64 fileLength = 3; 
+}
+
+message SaveFileResponse {
+    string percentComplete = 1;
+}
+
 service VideoFileService {
     rpc DeleteFile (DeleteFileRequest) returns (DeleteFileResponse);
+    rpc SaveFile (SaveFileRequest) returns (stream SaveFileResponse);
 }

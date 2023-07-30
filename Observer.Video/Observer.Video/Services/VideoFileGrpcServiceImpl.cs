@@ -1,5 +1,6 @@
 ﻿using Grpc.Core;
 using GrpcVideo;
+using Microsoft.AspNetCore.Http;
 using static GrpcVideo.VideoFileService;
 
 namespace Observer.Head.Infrastructure.Repositories;
@@ -31,34 +32,34 @@ public class VideoFileGrpcServiceImpl : VideoFileServiceBase
     //    }
     //}
 
-    //public async Task<bool> SaveFileAsync(VideoFile video, IProgress<string> progress)
-    //{
-    //    var videoFilePath = Path.Combine(_videosDirectory, video.FileName);
-    //    if (File.Exists(videoFilePath))
-    //    {
-    //        throw new Exception($"A file with the name {video.FileName} already exists.");
-    //    }
+    public override async Task SaveFile(SaveFileRequest request, IServerStreamWriter<SaveFileResponse> responseStream, ServerCallContext context)
+    {
+        var videoFilePath = Path.Combine(_videosDirectory, request.FileName);
+        if (File.Exists(videoFilePath))
+        {
+            throw new Exception($"A file with the name { request.FileName } already exists.");
+        }
 
-    //    byte[] buffer = new byte[16 * 1024];
+        byte[] buffer = new byte[16 * 1024];
 
-    //    using FileStream output = new FileStream(videoFilePath, FileMode.Create);
-    //    using Stream input = video.File.OpenReadStream();
+        using FileStream output = new FileStream(videoFilePath, FileMode.Create);
+        MemoryStream input = new MemoryStream();
+        request.FileContent.WriteTo(input);
 
-    //    long totalReadBytes = 0;
-    //    int readBytes;
+        long totalReadBytes = 0;
+        int readBytes;
 
-    //    while ((readBytes = input.Read(buffer, 0, buffer.Length)) > 0)
-    //    {
-    //        await output.WriteAsync(buffer, 0, readBytes);
-    //        totalReadBytes += readBytes;
+        while ((readBytes = input.Read(buffer, 0, buffer.Length)) > 0)
+        {
+            await output.WriteAsync(buffer, 0, readBytes);
+            totalReadBytes += readBytes;
 
-    //        // Report progress
-    //        var percentComplete = (output.Length / (double)video.File.Length).ToString("0.00%");
-    //        progress.Report(percentComplete);
-    //    }
+            // Report progress
+            var percentComplete = (output.Length / (double)request.FileLength).ToString("0.00%");
 
-    //    return true;
-    //}
+            await responseStream.WriteAsync(new SaveFileResponse { PercentComplete = percentComplete });
+        }
+    }
 
     public override Task<DeleteFileResponse> DeleteFile(DeleteFileRequest request, ServerCallContext context)
     {

@@ -6,5 +6,5 @@ public interface IVideoFileGrpcClient
 {
     Task<bool> DeleteFileAsync(string fileName);
     IAsyncEnumerable<BufferedVideo> StreamVideo(string fileName);
-    Task<bool> SaveFileAsync(VideoFile video, IProgress<string> progress);
+    Task SaveFileAsync(VideoFile video, IProgress<string> progress);
 }
