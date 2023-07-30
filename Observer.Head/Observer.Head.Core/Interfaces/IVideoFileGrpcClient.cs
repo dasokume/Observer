@@ -2,9 +2,9 @@
 
 namespace Observer.Head.Core.Interfaces;
 
-public interface IVideoFileRepository
+public interface IVideoFileGrpcClient
 {
-    public IAsyncEnumerable<BufferedVideo> StreamVideoAsync(VideoFile video);
+    Task<bool> DeleteFileAsync(string fileName);
+    IAsyncEnumerable<BufferedVideo> StreamVideo(string fileName);
     Task<bool> SaveFileAsync(VideoFile video, IProgress<string> progress);
-    bool DeleteFileAsync(VideoFile video);
 }

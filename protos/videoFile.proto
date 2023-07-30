@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package grpcVideo;
+
+message DeleteFileRequest {
+    string fileName = 1;
+}
+
+message DeleteFileResponse {
+    bool isDeleted = 1;
+}
+
+service VideoFileService {
+    rpc DeleteFile (DeleteFileRequest) returns (DeleteFileResponse);
+}

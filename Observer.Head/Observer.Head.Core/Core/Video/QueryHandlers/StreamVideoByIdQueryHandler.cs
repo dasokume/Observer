@@ -7,12 +7,12 @@ namespace Observer.Head.Core.Video.QueryHandlers;
 
 public class StreamVideoByIdQueryHandler : IStreamRequestHandler<StreamVideoByIdQuery, BufferedVideo>
 {
-    private readonly IVideoFileRepository _videoFileRepository;
+    private readonly IVideoFileGrpcClient _videoFileService;
     private readonly IVideoRepository _videoRepository;
 
-    public StreamVideoByIdQueryHandler(IVideoFileRepository videoFileRepository, IVideoRepository videoRepository)
+    public StreamVideoByIdQueryHandler(IVideoFileGrpcClient videoFileService, IVideoRepository videoRepository)
     {
-        _videoFileRepository = videoFileRepository;
+        _videoFileService = videoFileService;
         _videoRepository = videoRepository;
     }
 
@@ -20,8 +20,6 @@ public class StreamVideoByIdQueryHandler : IStreamRequestHandler<StreamVideoById
     {
         var videoMetadata = _videoRepository.GetAsync(request.Id).GetAwaiter().GetResult();
 
-        var videoFile = new VideoFile { FileName = videoMetadata.FileName };
-
-        return _videoFileRepository.StreamVideoAsync(videoFile);
+        return _videoFileService.StreamVideo(videoMetadata.FileName);
     }
 }

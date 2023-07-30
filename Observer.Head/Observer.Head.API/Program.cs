@@ -15,7 +15,7 @@ using Observer.Head.Infrastructure;
 using Observer.Head.Infrastructure.Interfaces;
 using Observer.Head.Infrastructure.Repositories;
 using Observer.Head.Infrastructure.Utility;
-using Observer.Head.Core.gRPC;
+using Observer.Head.Core.Services;
 
 var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 logger.Debug("init main");
@@ -105,7 +105,7 @@ try
     builder.Services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
 
     // AddScoped
-    builder.Services.AddScoped<IVideoFileRepository, VideoFileRepository>();
+    builder.Services.AddScoped<IVideoFileGrpcClient, VideoFileGrpcClient>();
     builder.Services.AddScoped<IVideoRepository, VideoRepository>();
     builder.Services.AddScoped<ICommentRepository, CommentRepository>();
     builder.Services.AddScoped<CosmosDbContext>();
@@ -137,7 +137,8 @@ try
 
     var app = builder.Build();
 
-    app.MapGrpcService<GreeterService>();
+    // Needed only if application is a Server
+    //app.MapGrpcService<>();
 
     // Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment())

@@ -4,25 +4,24 @@ using Observer.Head.Core.Entities;
 using Observer.Head.Core.Interfaces;
 using Observer.Head.Core.Video.Commands;
 using Microsoft.Extensions.Logging;
-using System.Xml.Linq;
 
 namespace Observer.Head.Core.Video.CommandHandlers;
 
 public class UploadVideoCommandHandler : IRequestHandler<UploadVideoCommand, VideoMetadata>
 {
     private readonly IVideoRepository _videoRepository;
-    private readonly IVideoFileRepository _videoFileRepository;
+    private readonly IVideoFileGrpcClient _videoFileGrpcClient;
     private readonly IMapper _mapper;
     private readonly ILogger<UploadVideoCommandHandler> _logger;
 
     public UploadVideoCommandHandler(
         IVideoRepository videoRepository,
-        IVideoFileRepository videoFileRepository,
+        IVideoFileGrpcClient videoFileGrpcClient,
         IMapper mapper,
         ILogger<UploadVideoCommandHandler> logger)
     {
         _videoRepository = videoRepository;
-        _videoFileRepository = videoFileRepository;
+        _videoFileGrpcClient = videoFileGrpcClient;
         _mapper = mapper;
         _logger = logger;
     }
@@ -45,7 +44,7 @@ public class UploadVideoCommandHandler : IRequestHandler<UploadVideoCommand, Vid
                 VideoMetadataId = videoMetadata.Id,
                 FileName = newFileName
             };
-            await _videoFileRepository.SaveFileAsync(videoFile, request.Progress);
+            await _videoFileGrpcClient.SaveFileAsync(videoFile, request.Progress);
 
             return createdResourse;
         }

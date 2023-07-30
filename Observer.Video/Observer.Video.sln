@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Observer.Video", "Observer.Video\Observer.Video.csproj", "{98DD3F04-D3A2-4433-9EA5-A475A45D339E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Observer.Video", "Observer.Video\Observer.Video.csproj", "{98DD3F04-D3A2-4433-9EA5-A475A45D339E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

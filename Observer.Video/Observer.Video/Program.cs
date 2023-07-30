@@ -1,20 +1,35 @@
-﻿using System.Threading.Tasks;
-//using Grpc.Net.Client;
-//using GrpcGreeterClient;
+﻿using Grpc.Core;
+using GrpcVideo;
+using Observer.Head.Infrastructure.Repositories;
 
 namespace Observer.Video;
 
 public class Program
 {
-    static void Main(string[] args)
+    static async Task Main(string[] args)
     {
-        //// The port number must match the port of the gRPC server.
-        //using var channel = GrpcChannel.ForAddress("https://localhost:7122");
-        //var client = new Greeter.GreeterClient(channel);
-        //var reply = await client.SayHelloAsync(
-        //                  new HelloRequest { Name = "GreeterClient" });
-        //Console.WriteLine("Greeting: " + reply.Message);
-        //Console.WriteLine("Press any key to exit...");
-        //Console.ReadKey();
+        Server server = new()
+        {
+            Ports = { new ServerPort("localhost", 5099, ServerCredentials.Insecure) },
+            Services = { VideoFileService.BindService(new VideoFileGrpcServiceImpl()) }
+        };
+
+        try
+        {
+            server.Start();
+            Console.WriteLine("Press enter to close the server.");
+            Console.ReadLine();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An error occurred: " + ex.ToString());
+        }
+        finally
+        {
+            if (server != null)
+            {
+                await server.ShutdownAsync();
+            }
+        }
     }
 }
