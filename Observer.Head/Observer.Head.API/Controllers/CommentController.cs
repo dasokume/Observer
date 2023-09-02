@@ -3,8 +3,10 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Observer.Head.API.ViewModels;
-using Observer.Head.Core.Comments.Commands;
-using Observer.Head.Core.Comments.Queries;
+using Observer.Head.Core.Commands.CreateComment;
+using Observer.Head.Core.Commands.DeleteComment;
+using Observer.Head.Core.Commands.UpdateComment;
+using Observer.Head.Core.Queries.GetComments;
 
 namespace Observer.Head.API.Controllers;
 

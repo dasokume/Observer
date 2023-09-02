@@ -1,8 +1,7 @@
 ﻿using MediatR;
 using Observer.Head.Core.Interfaces;
-using Observer.Head.Core.Video.Commands;
 
-namespace Observer.Head.Core.Video.CommandHandlers;
+namespace Observer.Head.Core.Commands.DeleteVideoById;
 
 public class DeleteVideoByIdCommandHandler : IRequestHandler<DeleteVideoByIdCommand, bool>
 {

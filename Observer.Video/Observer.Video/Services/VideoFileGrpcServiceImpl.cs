@@ -1,6 +1,6 @@
-﻿using Grpc.Core;
+﻿using Google.Protobuf;
+using Grpc.Core;
 using GrpcVideo;
-using Microsoft.AspNetCore.Http;
 using static GrpcVideo.VideoFileService;
 
 namespace Observer.Head.Infrastructure.Repositories;
@@ -14,23 +14,26 @@ public class VideoFileGrpcServiceImpl : VideoFileServiceBase
         _videosDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Videos");
     }
 
-    //public async IAsyncEnumerable<BufferedVideo> StreamVideoAsync(string fileName)
-    //{
-    //    var bufferSize = 1024 * 1024;
-    //    byte[] buffer = new byte[bufferSize];
+    public override async Task StreamFile(StreamFileRequest request, IServerStreamWriter<StreamFileResponse> responseStream, ServerCallContext context)
+    {
+        var bufferSize = 1024 * 1024;
+        byte[] buffer = new byte[bufferSize];
 
-    //    using var stream = new FileStream(Path.Combine(_videosDirectory, video.FileName), FileMode.Open);
-    //    using var bufferedStream = new BufferedStream(stream, bufferSize);
-    //    BufferedVideo bufferedVideo = new BufferedVideo { BufferSize = bufferSize };
+        using var stream = new FileStream(Path.Combine(_videosDirectory, request.FileName), FileMode.Open);
+        using var bufferedStream = new BufferedStream(stream, bufferSize);
 
-    //    int bytesRead;
-    //    while ((bytesRead = await bufferedStream.ReadAsync(buffer, 0, buffer.Length)) > 0)
-    //    {
-    //        bufferedVideo.Buffer = buffer;
-    //        bufferedVideo.BytesRead = bytesRead;
-    //        yield return bufferedVideo;
-    //    }
-    //}
+        int bytesRead;
+        while ((bytesRead = await bufferedStream.ReadAsync(buffer, 0, buffer.Length)) > 0)
+        {
+            var resposne = new StreamFileResponse
+            {
+                Buffer = ByteString.CopyFrom(buffer),
+                BytesRead = bytesRead
+            };
+
+            await responseStream.WriteAsync(resposne);
+        }
+    }
 
     public override async Task SaveFile(SaveFileRequest request, IServerStreamWriter<SaveFileResponse> responseStream, ServerCallContext context)
     {
@@ -41,10 +44,12 @@ public class VideoFileGrpcServiceImpl : VideoFileServiceBase
         }
 
         byte[] buffer = new byte[16 * 1024];
+        byte[] fileContent = new byte[request.FileLength];
 
         using FileStream output = new FileStream(videoFilePath, FileMode.Create);
-        MemoryStream input = new MemoryStream();
-        request.FileContent.WriteTo(input);
+        
+        request.FileContent.CopyTo(fileContent, 0);
+        MemoryStream input = new MemoryStream(fileContent);
 
         long totalReadBytes = 0;
         int readBytes;

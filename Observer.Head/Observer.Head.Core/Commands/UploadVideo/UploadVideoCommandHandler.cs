@@ -2,10 +2,9 @@
 using MediatR;
 using Observer.Head.Core.Entities;
 using Observer.Head.Core.Interfaces;
-using Observer.Head.Core.Video.Commands;
 using Microsoft.Extensions.Logging;
 
-namespace Observer.Head.Core.Video.CommandHandlers;
+namespace Observer.Head.Core.Commands.UploadVideo;
 
 public class UploadVideoCommandHandler : IRequestHandler<UploadVideoCommand, VideoMetadata>
 {

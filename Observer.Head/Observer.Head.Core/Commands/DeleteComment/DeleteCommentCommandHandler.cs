@@ -1,8 +1,7 @@
 ﻿using MediatR;
-using Observer.Head.Core.Comments.Commands;
 using Observer.Head.Core.Interfaces;
 
-namespace Observer.Head.Core.Comments.CommandHandlers;
+namespace Observer.Head.Core.Commands.DeleteComment;
 
 public class DeleteCommentCommandHandler : IRequestHandler<DeleteCommentCommand, bool>
 {

@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
 using Observer.Head.API.ViewModels;
-using Observer.Head.Core.Comments.Commands;
+using Observer.Head.Core.Commands.CreateComment;
+using Observer.Head.Core.Commands.UpdateComment;
+using Observer.Head.Core.Commands.UploadVideo;
 using Observer.Head.Core.Entities;
-using Observer.Head.Core.Video.Commands;
 
 namespace Observer.Head.API.Mapping;
 

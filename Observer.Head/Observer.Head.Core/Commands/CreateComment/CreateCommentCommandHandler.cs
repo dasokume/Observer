@@ -1,9 +1,8 @@
 ﻿using MediatR;
-using Observer.Head.Core.Comments.Commands;
 using Observer.Head.Core.Entities;
 using Observer.Head.Core.Interfaces;
 
-namespace Observer.Head.Core.Comments.CommandHandlers;
+namespace Observer.Head.Core.Commands.CreateComment;
 
 public class CreateCommentCommandHandler : IRequestHandler<CreateCommentCommand, Comment>
 {

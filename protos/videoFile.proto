@@ -20,7 +20,17 @@ message SaveFileResponse {
     string percentComplete = 1;
 }
 
+message StreamFileRequest {
+    string fileName = 1;
+}
+
+message StreamFileResponse {
+    bytes buffer = 1;
+    int32 bytesRead = 2;
+}
+
 service VideoFileService {
     rpc DeleteFile (DeleteFileRequest) returns (DeleteFileResponse);
     rpc SaveFile (SaveFileRequest) returns (stream SaveFileResponse);
+    rpc StreamFile (StreamFileRequest) returns (stream StreamFileResponse);
 }

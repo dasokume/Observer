@@ -1,9 +1,9 @@
 ﻿using MediatR;
 using Observer.Head.Core.Entities;
 
-namespace Observer.Head.Core.Comments.Commands;
+namespace Observer.Head.Core.Commands.UpdateComment;
 
-public record CreateCommentCommand : IRequest<Comment>
+public record UpdateCommentCommand : IRequest<Comment>
 {
     public string VideoMetadataId { get; init; } = default!;
 

@@ -3,9 +3,10 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Observer.Head.API.ViewModels;
+using Observer.Head.Core.Commands.DeleteVideoById;
+using Observer.Head.Core.Commands.UploadVideo;
 using Observer.Head.Core.Entities;
-using Observer.Head.Core.Video.Commands;
-using Observer.Head.Core.Video.Queries;
+using Observer.Head.Core.Queries.StreamVideo;
 
 namespace Observer.Head.API.Controllers;
 

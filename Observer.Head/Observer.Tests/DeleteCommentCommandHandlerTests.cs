@@ -1,7 +1,6 @@
 ﻿using FluentAssertions;
 using Moq;
-using Observer.Head.Core.Comments.CommandHandlers;
-using Observer.Head.Core.Comments.Commands;
+using Observer.Head.Core.Commands.DeleteComment;
 using Observer.Head.Core.Interfaces;
 using Xunit;
 

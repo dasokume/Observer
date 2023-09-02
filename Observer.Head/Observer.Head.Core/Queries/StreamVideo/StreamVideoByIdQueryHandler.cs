@@ -1,18 +1,17 @@
 ﻿using MediatR;
 using Observer.Head.Core.Entities;
 using Observer.Head.Core.Interfaces;
-using Observer.Head.Core.Video.Queries;
 
-namespace Observer.Head.Core.Video.QueryHandlers;
+namespace Observer.Head.Core.Queries.StreamVideo;
 
 public class StreamVideoByIdQueryHandler : IStreamRequestHandler<StreamVideoByIdQuery, BufferedVideo>
 {
-    private readonly IVideoFileGrpcClient _videoFileService;
+    private readonly IVideoFileGrpcClient _videoFileGrpcClient;
     private readonly IVideoRepository _videoRepository;
 
-    public StreamVideoByIdQueryHandler(IVideoFileGrpcClient videoFileService, IVideoRepository videoRepository)
+    public StreamVideoByIdQueryHandler(IVideoFileGrpcClient videoFileGrpcClient, IVideoRepository videoRepository)
     {
-        _videoFileService = videoFileService;
+        _videoFileGrpcClient = videoFileGrpcClient;
         _videoRepository = videoRepository;
     }
 
@@ -20,6 +19,6 @@ public class StreamVideoByIdQueryHandler : IStreamRequestHandler<StreamVideoById
     {
         var videoMetadata = _videoRepository.GetAsync(request.Id).GetAwaiter().GetResult();
 
-        return _videoFileService.StreamVideo(videoMetadata.FileName);
+        return _videoFileGrpcClient.StreamVideo(videoMetadata.FileName);
     }
 }

@@ -1,9 +1,8 @@
 ﻿using MediatR;
-using Observer.Head.Core.Comments.Queries;
 using Observer.Head.Core.Entities;
 using Observer.Head.Core.Interfaces;
 
-namespace Observer.Head.Core.Comments.QueryHandlers;
+namespace Observer.Head.Core.Queries.GetComments;
 
 public class GetCommentsQueryHandler : IRequestHandler<GetCommentsQuery, List<Comment>>
 {

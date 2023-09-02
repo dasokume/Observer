@@ -4,8 +4,7 @@ using GrpcVideo;
 using Microsoft.Extensions.Logging;
 using Observer.Head.Core.Entities;
 using Observer.Head.Core.Interfaces;
-using Observer.Head.Core.Video.CommandHandlers;
-using System.IO.Compression;
+using Observer.Head.Core.Queries.GetComments;
 
 namespace Observer.Head.Core.Services;
 
@@ -22,14 +21,12 @@ public class VideoFileGrpcClient : IVideoFileGrpcClient
 
     public async Task<bool> DeleteFileAsync(string fileName)
     {
-        await _channel.ConnectAsync();
+        var client = await GetGrpClient();
 
         var request = new DeleteFileRequest
         {
             FileName = fileName
         };
-
-        var client = new VideoFileService.VideoFileServiceClient(_channel);
 
         var response = await client.DeleteFileAsync(request);
 
@@ -47,7 +44,7 @@ public class VideoFileGrpcClient : IVideoFileGrpcClient
         await video.File.CopyToAsync(memoryStream);
         var fileContent = memoryStream.ToArray();
 
-        await _channel.ConnectAsync();
+        var client = await GetGrpClient();
 
         var request = new SaveFileRequest
         {
@@ -55,8 +52,6 @@ public class VideoFileGrpcClient : IVideoFileGrpcClient
             FileLength = video.File.Length,
             FileContent = ByteString.CopyFrom(fileContent)
         };
-
-        var client = new VideoFileService.VideoFileServiceClient(_channel);
 
         var response = client.SaveFile(request);
 
@@ -67,8 +62,35 @@ public class VideoFileGrpcClient : IVideoFileGrpcClient
         }
     }
 
-    public IAsyncEnumerable<BufferedVideo> StreamVideo(string fileName)
+    public async IAsyncEnumerable<BufferedVideo> StreamVideo(string fileName)
     {
-        throw new NotImplementedException();
+        var client = await GetGrpClient();
+
+        var request = new StreamFileRequest
+        {
+            FileName = fileName
+        };
+
+        var response = client.StreamFile(request);
+
+        while (await response.ResponseStream.MoveNext())
+        {
+            var current = response.ResponseStream.Current;
+            var buffer = new byte[current.Buffer.Length];
+            current.Buffer.CopyTo(buffer, 0);
+
+            yield return new BufferedVideo
+            {
+                Buffer = buffer,
+                BytesRead = current.BytesRead
+            };
+        }
+    }
+
+    private async Task<VideoFileService.VideoFileServiceClient> GetGrpClient()
+    {
+        await _channel.ConnectAsync();
+
+        return new VideoFileService.VideoFileServiceClient(_channel);
     }
 }

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Observer.Head.Core.Entities;
 
-namespace Observer.Head.Core.Video.Commands;
+namespace Observer.Head.Core.Commands.UploadVideo;
 
 public record UploadVideoCommand : IRequest<VideoMetadata>
 {
